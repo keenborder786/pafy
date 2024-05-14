@@ -39,7 +39,7 @@ else:
 from . import g
 from .util import call_gdata
 
-backend = 'internal'
+backend = 'external'
 Pafy = None
 if os.environ.get("pafydebug") == "1":
     logging.basicConfig(level=logging.DEBUG)
