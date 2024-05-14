@@ -3,14 +3,6 @@ import time
 import logging
 import os
 
-if sys.version_info[:2] >= (3, 0):
-    # pylint: disable=E0611,F0401,I0011
-    uni = str
-else:
-    uni = unicode
-
-import youtube_dl
-
 from . import g
 from .backend_shared import BasePafy, BaseStream, remux, get_status_string, get_size_done
 
@@ -33,7 +25,7 @@ class YtdlPafy(BasePafy):
         """ Fetch basic data and streams. """
         if self._have_basic:
             return
-
+        import youtube_dl
         with youtube_dl.YoutubeDL(self._ydl_opts) as ydl:
             try:
                 self._ydl_info = ydl.extract_info(self.videoid, download=False)
@@ -132,7 +124,7 @@ class YtdlStream(BaseStream):
 
     def download(self, filepath="", quiet=False, progress="Bytes",
                  callback=None, meta=False, remux_audio=False):
-
+        import youtube_dl
         downloader = youtube_dl.downloader.http.HttpFD(ydl(),
             {'http_chunk_size': 10485760})
 

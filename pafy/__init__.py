@@ -1,8 +1,6 @@
 __version__ = "0.5.5"
 __author__ = "np1"
 __license__ = "LGPLv3"
-import os
-os.environ['PAFY_BACKEND'] = 'internal'
 
 # External api
 from .pafy import new
