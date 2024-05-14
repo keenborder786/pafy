@@ -39,6 +39,7 @@ else:
 from . import g
 from .util import call_gdata
 
+backend = 'internal'
 Pafy = None
 if os.environ.get("pafydebug") == "1":
     logging.basicConfig(level=logging.DEBUG)
@@ -102,7 +103,11 @@ def new(url, basic=True, gdata=False, size=False,
     """
     global Pafy
     if Pafy is None:
-        from .backend_youtube_dl import YtdlPafy as Pafy
+        if backend == "internal":
+           from .backend_internal import InternPafy as Pafy
+        else:
+           from .backend_youtube_dl import YtdlPafy as Pafy
+
     return Pafy(url, basic, gdata, size, callback, ydl_opts=ydl_opts)
 
 
