@@ -40,20 +40,6 @@ from . import g
 from .util import call_gdata
 
 Pafy = None
-
-# Select which backend to use
-backend = "internal"
-if os.environ.get("PAFY_BACKEND") != "internal":
-    try:
-        import youtube_dl
-        backend = "youtube-dl"
-    except ImportError:
-        raise ImportError(
-               "pafy: youtube-dl not found; you can use the internal backend by "
-               "setting the environmental variable PAFY_BACKEND to \"internal\". "
-               "It is not enabled by default because it is not as well maintained "
-               "as the youtube-dl backend.")
-
 if os.environ.get("pafydebug") == "1":
     logging.basicConfig(level=logging.DEBUG)
 
@@ -116,11 +102,7 @@ def new(url, basic=True, gdata=False, size=False,
     """
     global Pafy
     if Pafy is None:
-        if backend == "internal":
-           from .backend_internal import InternPafy as Pafy
-        else:
-           from .backend_youtube_dl import YtdlPafy as Pafy
-
+        from .backend_youtube_dl import YtdlPafy as Pafy
     return Pafy(url, basic, gdata, size, callback, ydl_opts=ydl_opts)
 
 
